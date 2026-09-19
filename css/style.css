@@ -1391,37 +1391,38 @@ video::-webkit-media-controls-panel {
   overflow: hidden;
   position: relative;
   padding: 1.5rem 0 2rem 0;
-  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, #000000 2.5%, #000000 97.5%, rgba(0, 0, 0, 0.4) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, #000000 2.5%, #000000 97.5%, rgba(0, 0, 0, 0.4) 100%);
 }
 
-/* Left & Right Edge Gradient Fades (Fallback & Enhanced Blend) */
+/* Left & Right Edge Gradient Fades (Subtle, Low-Opacity Blend) */
 .project-marquee-wrapper::before,
 .project-marquee-wrapper::after {
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 80px;
+  width: 45px;
   pointer-events: none;
   z-index: 5;
+  opacity: 0.3;
 }
 
 .project-marquee-wrapper::before {
   left: 0;
-  background: linear-gradient(to right, #000000 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .project-marquee-wrapper::after {
   right: 0;
-  background: linear-gradient(to left, #000000 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 /* Continuous Left-to-Right Animation Track */
 .project-marquee-track {
   display: flex;
   width: max-content;
-  animation: marqueeScrollLTR 36s linear infinite;
+  animation: marqueeScrollLTR 56s linear infinite;
   will-change: transform;
 }
 

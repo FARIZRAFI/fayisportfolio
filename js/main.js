@@ -338,11 +338,13 @@ function initProjectGalleryLightbox() {
   // Attach click listeners to all cards in the marquee (both original and duplicate sets)
   cards.forEach(card => {
     const idx = parseInt(card.dataset.index, 10);
-    card.addEventListener('click', () => openModal(idx));
+    const itemPos = items.findIndex(item => item.index === idx);
+    const targetIdx = itemPos !== -1 ? itemPos : 0;
+    card.addEventListener('click', () => openModal(targetIdx));
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openModal(idx);
+        openModal(targetIdx);
       }
     });
   });
