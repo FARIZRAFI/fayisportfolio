@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initPortraitParallax();
   disableVideoPiP();
+  initProjectGalleryLightbox();
 });
 
 /**
@@ -265,3 +266,109 @@ function initPortraitParallax() {
     wrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
   });
 }
+
+/**
+ * 8. Project Field Gallery Lightbox Modal
+ */
+function initProjectGalleryLightbox() {
+  const modal = document.getElementById('projectLightboxModal');
+  const overlay = document.getElementById('lightboxOverlay');
+  const closeBtn = document.getElementById('lightboxCloseBtn');
+  const imgEl = document.getElementById('lightboxImg');
+  const titleEl = document.getElementById('lightboxTitle');
+  const subEl = document.getElementById('lightboxSub');
+  const tagEl = document.getElementById('lightboxTag');
+  const counterEl = document.getElementById('lightboxCounter');
+  const prevBtn = document.getElementById('lightboxPrevBtn');
+  const nextBtn = document.getElementById('lightboxNextBtn');
+
+  if (!modal || !imgEl) return;
+
+  // Collect distinct project items
+  const cards = Array.from(document.querySelectorAll('.project-marquee-track .project-slide-card[data-index]'));
+  const items = [];
+  const seenIndices = new Set();
+  cards.forEach(card => {
+    const idx = parseInt(card.dataset.index, 10);
+    if (!seenIndices.has(idx)) {
+      seenIndices.add(idx);
+      items.push({
+        index: idx,
+        src: card.dataset.src,
+        title: card.dataset.title,
+        sub: card.dataset.sub,
+        tag: card.dataset.tag
+      });
+    }
+  });
+
+  items.sort((a, b) => a.index - b.index);
+  if (items.length === 0) return;
+
+  let currentIndex = 0;
+
+  function updateModal(index) {
+    if (index < 0) index = items.length - 1;
+    if (index >= items.length) index = 0;
+    currentIndex = index;
+
+    const item = items[currentIndex];
+    imgEl.src = item.src;
+    imgEl.alt = item.title;
+    titleEl.textContent = item.title;
+    subEl.textContent = item.sub;
+    tagEl.textContent = item.tag;
+    counterEl.textContent = `${currentIndex + 1} / ${items.length}`;
+  }
+
+  function openModal(index) {
+    updateModal(index);
+    modal.classList.add('is-active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click listeners to all cards in the marquee (both original and duplicate sets)
+  cards.forEach(card => {
+    const idx = parseInt(card.dataset.index, 10);
+    card.addEventListener('click', () => openModal(idx));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(idx);
+      }
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (overlay) overlay.addEventListener('click', closeModal);
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateModal(currentIndex - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateModal(currentIndex + 1);
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('is-active')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') updateModal(currentIndex - 1);
+    if (e.key === 'ArrowRight') updateModal(currentIndex + 1);
+  });
+}
+

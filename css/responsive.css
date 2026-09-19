@@ -449,3 +449,85 @@
     font-size: 2rem;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Gallery Marquee & Lightbox Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .project-slide-card {
+    flex: 0 0 310px;
+    width: 310px;
+    margin-right: 1.25rem;
+  }
+  .card-img-container {
+    height: 205px;
+  }
+  .lightbox-dialog {
+    max-width: 94vw;
+  }
+  .lightbox-image-wrap {
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-gallery-showcase {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+  }
+  .project-slide-card {
+    flex: 0 0 280px;
+    width: 280px;
+    margin-right: 1rem;
+    padding: 0.75rem;
+  }
+  .card-img-container {
+    height: 185px;
+  }
+  .card-meta .card-project-title {
+    font-size: 0.98rem;
+  }
+  .card-expand-hint {
+    opacity: 1; /* Always visible on touch devices */
+    transform: translateY(0);
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+  .lightbox-image-wrap {
+    height: 320px;
+  }
+  .lightbox-dialog {
+    padding: 1rem;
+  }
+  .lightbox-title {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-slide-card {
+    flex: 0 0 240px;
+    width: 240px;
+    margin-right: 0.85rem;
+  }
+  .card-img-container {
+    height: 165px;
+  }
+  .gallery-marquee-hint {
+    font-size: 0.7rem;
+    padding: 0 1rem;
+  }
+  .lightbox-image-wrap {
+    height: 250px;
+  }
+  .lightbox-title {
+    font-size: 1.05rem;
+  }
+  .lightbox-sub {
+    font-size: 0.85rem;
+  }
+  .lightbox-dialog {
+    padding: 0.9rem;
+  }
+}
+
